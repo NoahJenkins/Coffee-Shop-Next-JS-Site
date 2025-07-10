@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Purple Bean Coffee House",
+  title: "Axiom Coffee",
   description: "A local coffee house demo site built with Next.js",
 };
 

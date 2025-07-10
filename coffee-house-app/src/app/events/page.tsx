@@ -61,16 +61,16 @@ export default function EventsPage() {
         </nav>
       </header>
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-8 gap-8">
-        <section className="w-full max-w-lg text-center">
+        <section className="w-full max-w-lg md:max-w-2xl lg:max-w-4xl text-center">
           <h2 className="text-3xl font-bold mb-2">Events Calendar</h2>
           <div className="flex justify-between items-center mb-2">
             <button onClick={prevMonth} className="px-2 py-1 rounded bg-[#f6f0fa]">&lt;</button>
             <span className="font-semibold">{getMonthName(currentMonth)} {currentYear}</span>
             <button onClick={nextMonth} className="px-2 py-1 rounded bg-[#f6f0fa]">&gt;</button>
           </div>
-          <div className="grid grid-cols-7 gap-1 text-xs">
+          <div className="grid grid-cols-7 gap-1 md:gap-2 text-xs md:text-base">
             {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d => (
-              <div key={d} className="font-bold py-1">{d}</div>
+              <div key={d} className="font-bold py-1 md:py-2">{d}</div>
             ))}
             {Array(firstDay).fill(null).map((_, i) => (
               <div key={"empty-"+i}></div>
@@ -80,14 +80,14 @@ export default function EventsPage() {
               const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
               const event = events.find(e => e.date === dateStr);
               return (
-                <div key={day} className={`py-2 rounded ${event ? "bg-[#e5e0ec] font-bold" : ""}`}>{day}{event && <span className="block text-[10px]">{event.title}</span>}</div>
+                <div key={day} className={`py-2 md:py-4 rounded ${event ? "bg-[#e5e0ec] font-bold" : ""}`}>{day}{event && <span className="block text-[10px] md:text-sm">{event.title}</span>}</div>
               );
             })}
           </div>
           {monthEvents.length > 0 && (
             <ul className="mt-4 flex flex-col gap-2">
               {monthEvents.map((event, idx) => (
-                <li key={idx} className="bg-[#f6f0fa] p-2 rounded text-sm">
+                <li key={idx} className="bg-[#f6f0fa] p-2 rounded text-sm md:text-base">
                   <span className="font-semibold">{new Date(event.date).toLocaleDateString()}</span>: {event.title}
                 </li>
               ))}

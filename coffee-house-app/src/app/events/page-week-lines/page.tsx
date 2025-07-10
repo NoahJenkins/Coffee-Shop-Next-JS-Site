@@ -1,7 +1,6 @@
 "use client";
+import React from "react";
 import Link from "next/link";
-
-
 import { useState } from "react";
 
 const events = [
@@ -11,17 +10,14 @@ const events = [
 ];
 
 function getDaysInMonth(year: number, month: number): number {
-  console.log("[DEBUG] getDaysInMonth called with:", { year, month });
   return new Date(year, month + 1, 0).getDate();
 }
 
 function getMonthName(month: number): string {
-  console.log("[DEBUG] getMonthName called with:", { month });
   return new Date(2025, month, 1).toLocaleString("default", { month: "long" });
 }
 
-
-export default function EventsPage() {
+export default function Page() {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -35,20 +31,40 @@ export default function EventsPage() {
     return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
   });
 
-  function nextMonth() {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(y => y + 1);
-    } else {
-      setCurrentMonth(m => m + 1);
-    }
+  // Build calendar days with week separation
+  const calendarCells: React.ReactNode[] = [];
+  let weekDay = firstDay;
+  let weekRow: React.ReactNode[] = [];
+  // Empty cells before the first day
+  for (let i = 0; i < firstDay; i++) {
+    weekRow.push(<div key={"empty-"+i}></div>);
+    weekDay++;
   }
-  function prevMonth() {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(y => y - 1);
-    } else {
-      setCurrentMonth(m => m - 1);
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+    const event = events.find(e => e.date === dateStr);
+    weekRow.push(
+      <div key={day} className={`py-2 md:py-4 rounded ${event ? "bg-[#e5e0ec] font-bold" : ""}`}>
+        {day}{event && <span className="block text-[10px] md:text-sm">{event.title}</span>}
+      </div>
+    );
+    weekDay++;
+    if (weekDay === 7 || day === daysInMonth) {
+      // End of week or end of month
+      calendarCells.push(
+        <div key={"week-"+day} className="contents">
+          {weekRow}
+        </div>
+      );
+      if (day !== daysInMonth) {
+        calendarCells.push(
+          <div key={"hr-"+day} className="col-span-7 my-1">
+            <hr className="border-t-2 border-[#d1c4e9]" />
+          </div>
+        );
+      }
+      weekRow = [];
+      weekDay = 0;
     }
   }
 
@@ -66,25 +82,29 @@ export default function EventsPage() {
         <section className="w-full max-w-lg md:max-w-2xl lg:max-w-4xl text-center">
           <h2 className="text-3xl font-bold mb-2">Events Calendar</h2>
           <div className="flex justify-between items-center mb-2">
-            <button onClick={prevMonth} className="px-2 py-1 rounded bg-[#f6f0fa]">&lt;</button>
+            <button onClick={() => {
+              if (currentMonth === 0) {
+                setCurrentMonth(11);
+                setCurrentYear(y => y - 1);
+              } else {
+                setCurrentMonth(m => m - 1);
+              }
+            }} className="px-2 py-1 rounded bg-[#f6f0fa]">{'<'}</button>
             <span className="font-semibold">{getMonthName(currentMonth)} {currentYear}</span>
-            <button onClick={nextMonth} className="px-2 py-1 rounded bg-[#f6f0fa]">&gt;</button>
+            <button onClick={() => {
+              if (currentMonth === 11) {
+                setCurrentMonth(0);
+                setCurrentYear(y => y + 1);
+              } else {
+                setCurrentMonth(m => m + 1);
+              }
+            }} className="px-2 py-1 rounded bg-[#f6f0fa]">{'>'}</button>
           </div>
           <div className="grid grid-cols-7 gap-1 md:gap-2 text-xs md:text-base">
             {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d => (
-              <div key={d} className="font-bold py-1 md:py-2 border border-gray-300">{d}</div>
+              <div key={d} className="font-bold py-1 md:py-2">{d}</div>
             ))}
-            {Array(firstDay).fill(null).map((_, i) => (
-              <div key={"empty-"+i} className="border border-gray-300"></div>
-            ))}
-            {Array(daysInMonth).fill(null).map((_, i) => {
-              const day = i + 1;
-              const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
-              const event = events.find(e => e.date === dateStr);
-              return (
-                <div key={day} className={`py-2 md:py-4 rounded border border-gray-300 ${event ? "bg-[#e5e0ec] font-bold" : ""}`}>{day}{event && <span className="block text-[10px] md:text-sm">{event.title}</span>}</div>
-              );
-            })}
+            {calendarCells}
           </div>
           {monthEvents.length > 0 && (
             <ul className="mt-4 flex flex-col gap-2">

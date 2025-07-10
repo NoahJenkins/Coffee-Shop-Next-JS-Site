@@ -138,35 +138,25 @@ export default function MenuPage() {
               <thead className="bg-[#f6f0fa]">
                 <tr>
                   <th className="p-2 border border-[#4B2067]">Pastry</th>
-                  <th className="p-2 border border-[#4B2067]">S</th>
-                  <th className="p-2 border border-[#4B2067]">M</th>
-                  <th className="p-2 border border-[#4B2067]">L</th>
+                  <th className="p-2 border border-[#4B2067]" colSpan={3}>Price / Calories</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td className="p-2 border border-[#4B2067]">Croissant</td>
-                  <td className="p-2 border border-[#4B2067]">$2.50 / 180 cal</td>
-                  <td className="p-2 border border-[#4B2067]">$3.00 / 220 cal</td>
-                  <td className="p-2 border border-[#4B2067]">$3.50 / 260 cal</td>
+                  <td className="p-2 border border-[#4B2067]" colSpan={3}>$3.00 / 220 cal</td>
                 </tr>
                 <tr>
                   <td className="p-2 border border-[#4B2067]">Muffin</td>
-                  <td className="p-2 border border-[#4B2067]">$2.25 / 200 cal</td>
-                  <td className="p-2 border border-[#4B2067]">$2.75 / 250 cal</td>
-                  <td className="p-2 border border-[#4B2067]">$3.25 / 300 cal</td>
+                  <td className="p-2 border border-[#4B2067]" colSpan={3}>$2.75 / 250 cal</td>
                 </tr>
                 <tr>
                   <td className="p-2 border border-[#4B2067]">Scone</td>
-                  <td className="p-2 border border-[#4B2067]">$2.75 / 220 cal</td>
-                  <td className="p-2 border border-[#4B2067]">$3.25 / 270 cal</td>
-                  <td className="p-2 border border-[#4B2067]">$3.75 / 320 cal</td>
+                  <td className="p-2 border border-[#4B2067]" colSpan={3}>$3.25 / 270 cal</td>
                 </tr>
                 <tr>
                   <td className="p-2 border border-[#4B2067]">Banana Bread</td>
-                  <td className="p-2 border border-[#4B2067]">$2.50 / 210 cal</td>
-                  <td className="p-2 border border-[#4B2067]">$3.00 / 260 cal</td>
-                  <td className="p-2 border border-[#4B2067]">$3.50 / 310 cal</td>
+                  <td className="p-2 border border-[#4B2067]" colSpan={3}>$3.00 / 260 cal</td>
                 </tr>
               </tbody>
             </table>

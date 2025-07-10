@@ -10,11 +10,13 @@ const events = [
   { date: "2025-08-05", title: "Local Artist Showcase" },
 ];
 
-function getDaysInMonth(year, month) {
+function getDaysInMonth(year: number, month: number): number {
+  console.log("[DEBUG] getDaysInMonth called with:", { year, month });
   return new Date(year, month + 1, 0).getDate();
 }
 
-function getMonthName(month) {
+function getMonthName(month: number): string {
+  console.log("[DEBUG] getMonthName called with:", { month });
   return new Date(2025, month, 1).toLocaleString("default", { month: "long" });
 }
 
